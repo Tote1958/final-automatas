@@ -54,10 +54,17 @@ while True:
     elif opcionMenu == "5":
         print("")
         print("Has pulsado la opción 5...")
+        print('Las canciones con mayor duración son:')
+        print(list_by_duration())
+        input('Presione cualquier tecla para volver al menu ')
         
     elif opcionMenu == "6":
         print("")
         print("Has pulsado la opción 6...")
+        print('Lor 10 Artistas con más vistas son:')
+        list_artists_by_views()
+        input('Presione cualquier tecla para volver al menu ')
+
     elif opcionMenu == "7":
         print("Has pulsado la opción 7...")
         print("Saliendo...")

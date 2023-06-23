@@ -10,7 +10,6 @@ def list_most_commented_songs():
     final_data = sorted_data.head(5)
     return final_data.loc[:,['Track','Comments']]
 
-
 def list_most_viewed_songs():
     data = csv_read()
     sorted_data = data.sort_values(by=["Views"], ascending=False)
@@ -23,5 +22,9 @@ def list_most_liked_songs():
     final_data = sorted_data.head(5)
     return final_data.loc[:,['Track','Likes']]
 
-
-
+def list_most_ratio_songs():
+    data = csv_read()
+    data['Ratio'] = data['Likes']/data['Views']
+    sorted_data = data.sort_values(by=["Ratio"], ascending=False)
+    final_data = sorted_data.head(5)
+    return final_data.loc[:,['Track','Ratio']]

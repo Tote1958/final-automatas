@@ -39,6 +39,9 @@ while True:
     elif opcionMenu == "2":
         print("")
         print("Has pulsado la opción 2...")
+        print("Las canciones con mejor ratio son:")
+        print(list_most_ratio_songs())
+        input('Presione cualquier tecla para volver al menu ')
         
     elif opcionMenu == "3":
         print("")

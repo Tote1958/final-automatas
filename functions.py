@@ -1,5 +1,7 @@
 import pandas as pd
 import re
+import datetime
+
 def csv_read():
     path = './Listado temas 2023.csv'
     data = pd.read_csv(path)
@@ -109,13 +111,15 @@ def add_track():
 
 def list_by_duration():
     data = csv_read()
-    sorted_data = data.sort_values(by=["Duration_ms"], ascending=False)
+    grouped_data = data.groupby('Track')
+#   data['duration'] = datetime.timedelta(milliseconds = data['Duration_ms'])  da error porque no toma bien el valor, no lo toma porque no un valor float y cuando lo intento forzar da otro error.
+    data['Duration'] = data['Duration_ms'] / 1000
+    sorted_data = grouped_data['Duration'].max().sort_values(ascending=False)
     final_data = sorted_data.head(10)
-    final_data = sorted_data.to_timedelta('Duration_ms', unit='s')
-    
-    data.at[6,'NAME']='Safa'
-    
-    return final_data.loc[:,['Track','Duration_ms']]
+#   final_data['duration'] = final_data['duration'].apply(lambda x: '{:02d}:{:02d}'.format(*divmod(int(x), 60)))  si lo dejaba sin el .loc daba una advertencia...
+    final_data = final_data.reset_index()  # Reinicia el índice porque sinó daba problemas
+    final_data.loc[:, 'Duration'] = final_data['Duration'].apply(lambda x: '{:02d}:{:02d}'.format(*divmod(int(x), 60)))
+    return final_data.loc[:,['Track','Duration']]
 
 def list_artists_by_views():
     data = csv_read()

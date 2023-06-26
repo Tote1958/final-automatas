@@ -3,8 +3,8 @@ import re
 import datetime
 
 def csv_read():
-    path = './Listado temas 2023.csv'
-    data = pd.read_csv(path)
+    PATH = './Listado temas 2023.csv'
+    data = pd.read_csv(PATH)
     return data
 
 def list_most_commented_songs():
@@ -43,12 +43,13 @@ def search_track():
 
 
 
-def validate_track():
+def validate_manual_track():
     while True:
         artist = input('Ingrese el artista: ')
         REG_EX = r'([a-zA-Z0-9]| )+'
         if re.fullmatch(REG_EX, artist):
             break
+        print("Ha escrito algo mal, intente de nuevo") 
     while True:
         url_spotify = input('Ingrese la URL de Spotify: ')    #url de ejemplo: https://open.spotify.com/track/5HNCy40Ni5BZJFw1TKzRsC?si=26024379e98f4ba6
         REG_EX = r'((https://)?(www\.)?(open\.spotify\.com/track/|open\.spotify\.com/artist/)([a-zA-Z0-9]|\_)+)'
@@ -59,55 +60,180 @@ def validate_track():
         track = input('Ingrese el track: ')
         REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\')+'
         if re.fullmatch(REG_EX, track):
-            break 
+            break
+        print("Ha escrito algo mal, intente de nuevo")  
     while True:
         album = input('Ingrese el album: ')
         REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\')+'
         if re.fullmatch(REG_EX, album):
-            break 
+            break
+        print("Ha escrito algo mal, intente de nuevo")  
     while True:
-        album_type = input('Ingrese el tipo de album: ')
+        album_type = input('Ingrese el tipo de album: ')                        # Que onda los tipos de album
         REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\')+'
         if re.fullmatch(REG_EX, album_type):
-            break 
+            break
+        print("Ha escrito algo mal, intente de nuevo")  
     while True:
         url = input('Ingrese la URL: ')
         REG_EX = r'(spotify:track:([a-zA-Z0-9])+)'
         if re.fullmatch(REG_EX, url):
             break 
+        print("Ha escrito algo mal, intente de nuevo") 
     while True:
-        duration = str(input('Ingrese la duracion (en milisegundos): '))
+        duration = str(input('Ingrese la duracion (en milisegundos, en enteros, sin las siglas, ni letras): '))
         REG_EX = r'([0-9]+)'  #CHEQUEAR QUE ONDA CON LO DE MS
         if re.fullmatch(REG_EX, duration):
             break 
+        print("Ha escrito algo mal, intente de nuevo") 
     while True:
         url_youtube = input('Ingrese la URL de YouTube: ')
         REG_EX = r'((https://)?(www\.)?(youtube\.com/watch\?v=)([a-zA-Z0-9]|\_|\-)+)'
         if re.fullmatch(REG_EX, url_youtube):
             break 
+        print("Ha escrito algo mal, intente de nuevo") 
     while True:
         title = input('Ingrese el title: ')
         REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\')+'
         if re.fullmatch(REG_EX, title):
             break
+        print("Ha escrito algo mal, intente de nuevo") 
     song_to_add = pd.DataFrame({'Artist': artist,
                          'Url_spotify': url_spotify,
                          'Track': track,
                          'Album': album,
                          'Album_type':album_type,
                          'Uri':url,  #EL CSV DICE URI, NO URL, ESTA BIEN ESO?
-                         'Duration_ms': duration,
+                         'Duration_ms': float(duration),
                          'Url_youtube':url_youtube,
-                         'Title':title}) 
+                         'Title':title}, index=[0]) 
     
     return song_to_add
 
+def validate_file(file):
+    for i in range(file['Index'].max() + 1):
+        artist = file['Artist'].values[i]
+        #REG_EX = r'([a-zA-Z0-9]| )+'
+        REG_EX = r'(.)+'
+        if re.fullmatch(REG_EX, artist):
+            pass
+        else:
+            print(f'La fila {i} no es valida, debido al que el artista {artist} no es aceptado por la expresion regular')
+            return False 
+
+        url_spotify = file['Url_spotify'].values[i]   
+        REG_EX = r'((https://)?(www\.)?(open\.spotify\.com/track/|open\.spotify\.com/artist/)([a-zA-Z0-9]|\_)+)'
+        if re.fullmatch(REG_EX, url_spotify):
+            pass
+        else:
+            print(f'La fila {i} no es valida, debido al que la Url_spotify {artist} no es aceptada por la expresion regular')
+            return False 
+        
+        track = file['Track'].values[i]
+        #REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\')+'
+        REG_EX = r'(.)+'
+        if re.fullmatch(REG_EX, track):
+            pass
+        else:
+            print(f'La fila {i} no es valida, debido al que el track {track} no es aceptado por la expresion regular')
+            return False 
+
+        album = file['Album'].values[i]
+        #REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\')+'          
+        if re.fullmatch(REG_EX, album):
+            pass
+        else:
+            print(f'La fila {i} no es valida, debido al que el album {album} no es aceptado por la expresion regular')
+            return False 
+
+        album_type = file['Album_type'].values[i]                       # Que onda los tipos de album
+        REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\')+'
+        if re.fullmatch(REG_EX, album_type):
+            pass
+        else:
+            print(f'La fila {i} no es valida, debido al que el tipo de album {album_type} no es aceptado por la expresion regular')
+            return False 
+
+        url = file['Uri'].values[i]
+        REG_EX = r'(spotify:track:([a-zA-Z0-9])+)'
+        if re.fullmatch(REG_EX, url):
+            pass
+        else:
+            print(f'La fila {i} no es valida, debido al que el url {url} no es aceptado por la expresion regular')
+            return False 
+        duration = str(int(file['Duration_ms'].values[i]))
+        REG_EX = r'([0-9]+)'  #CHEQUEAR QUE ONDA CON LO DE MS
+        if re.fullmatch(REG_EX, duration):
+            pass
+        else:
+            print(f'La fila {i} no es valida, debido al que la duracion {duration} no es aceptado por la expresion regular')
+            return False
+
+        url_youtube = file['Url_youtube'].values[i]
+        print(url_youtube)
+        REG_EX = r'((https://)?(www\.)?(youtube\.com/watch\?v=)([a-zA-Z0-9]|\_|\-)+)'
+        if re.fullmatch(REG_EX, url_youtube):                                           #El error que tira esta bien, between de bars no tiene streams por ejemplo
+            pass
+        else:
+            print(f'La fila {i} no es valida, debido al que el url de youtube {url_youtube} no es aceptado por la expresion regular')
+            return False
+
+        title = file['Title'].values[i]
+        #REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\'|\[|\])+'
+        REG_EX = r'(.)+'          #Le puse un punto porque hay muchos simbolos 
+        if re.fullmatch(REG_EX, title):
+            pass
+        else:
+            print(f'La fila {i} no es valida, debido al que el titulo {title} no es aceptado por la expresion regular')
+            return False
+        
+    return True
+
+
+
+
+
+
+
+
+
 def add_track():
     data = csv_read()
-    print("A continuacion, ingrese los datos de la cancion a añadir")
-    new_track = validate_track()
-    final_data = data.append(new_track,ignore_index=True)
-    return final_data
+    while True:
+        print("┌────────────────────────────────────────────────────┐")
+        print("│Seleccione su opción                                │")
+        print(" ──────────────────────────────────────────────────── ")
+        print("│ 1 - Cargar una cancion a mano                      │")
+        print("│ 2 - Cargar una o mas canciones mediante un archivo │")
+        print("│ 3 - Para salir                                     │")
+        print("└────────────────────────────────────────────────────┘")
+        option = str(input('--> '))
+        if option == "1":
+            data = csv_read()
+            print("A continuacion, ingrese los datos de la cancion a añadir")
+            new_track = validate_manual_track()
+            final_data = pd.concat([data, new_track], ignore_index=True)
+            try:
+                final_data.drop('Index', inplace=True, axis=1)    #La primera vez que lo corro anda, la segunda ya no genera el index
+            except KeyError:
+                pass                                             #Con el Try borra el nombre pero aparece la columna como Unnamed : 0 
+            final_data.to_csv('./Listado temas 2023.csv')
+            return final_data
+        elif option == "2":
+            data = csv_read()
+            path = str(input('Ingrese la direccion del archivo a agregar: '))
+            new_file = pd.read_csv(path)
+            if validate_file(new_file):
+                final_data = pd.concat([data, new_track], ignore_index=True)
+                final_data.to_csv('./Listado temas 2023.csv')
+                return final_data
+            else: break
+        elif option == "3":
+            break
+        else:
+            print("")
+            print("No has pulsado ninguna opción correcta...")
+
 
 def list_by_duration():
     data = csv_read()

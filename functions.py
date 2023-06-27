@@ -1,6 +1,6 @@
 import pandas as pd
 import re
-import datetime
+import os
 
 def csv_read():
     PATH = './Listado temas 2023.csv'
@@ -34,14 +34,37 @@ def list_most_ratio_songs():
 
 def search_track():
     data = csv_read()
-    search = str(input('Ingrese la cancion a buscar: '))
-    data["Search"]= data["Track"].str.find(search)
-    data.drop(data[data['Search'] == -1].index, inplace = True)
-    sorted_data = data.sort_values(by=["Search"], ascending=True)
-    del sorted_data['Search']
-    return sorted_data
-
-
+    while True:
+        print('Ingrese el número de la opción que desee buscar')
+        print("┌─────────────────────────────────────────────────────────────────┐")
+        print("│       Ingrese el número de la opción que desee buscar           │")
+        print(" ───────────────────────────────────────────────────────────────── ")
+        print("│ 1 - Canción                                                     │")
+        print("│ 2 - Album                                                       │")
+        print("│ 3 - Artista                                                     │")
+        print("└─────────────────────────────────────────────────────────────────┘")
+        opcionMenu = input('--> ')  # solicitamos una opción al usuario
+        print("┌────────────────────────────────────────────────┐")
+        print("│       Ingrese el nombre que desee buscar       │")
+        print("└────────────────────────────────────────────────┘")
+        name = str(input('--> '))
+        if opcionMenu == '1':
+            filter = 'Track'
+            break
+        elif opcionMenu == '2':
+            filter = 'Album'
+            break
+        elif opcionMenu == '3':
+            filter = 'Artist'
+            break
+        else:
+            borrar = 'cls' if os.name == 'nt' else 'clear'
+            os.system(borrar)
+            print("┌─────────────────────────────────────────────────────────────────────────┐")
+            print(' -------------Ingresó un valor invalido. Vuelva a intentar...------------- ')
+            print("└─────────────────────────────────────────────────────────────────────────┘")
+    result = data[data[filter].str.contains(name)]
+    return result
 
 def validate_manual_track():
     while True:

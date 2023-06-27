@@ -24,7 +24,7 @@ def menu():
 
 while True:
     menu()  # Mostramos el menu
-    opcionMenu = input('--> ')  # solicituamos una opción al usuario
+    opcionMenu = input('--> ')  # solicitamos una opción al usuario
     if opcionMenu == "1":
         print("")
         print("Has pulsado la opción 1...")

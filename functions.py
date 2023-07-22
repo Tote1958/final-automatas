@@ -148,7 +148,7 @@ def validate_file(file):
         if re.fullmatch(REG_EX, url_spotify):
             pass
         else:
-            print(f'La fila {i} no es valida, debido al que la Url_spotify {artist} no es aceptada por la expresion regular')
+            print(f'La fila {i} no es valida, debido al que la Url_spotify {url_spotify} no es aceptada por la expresion regular')
             return False 
         
         track = file['Track'].values[i]
@@ -245,11 +245,16 @@ def add_track():
             data = csv_read()
             path = str(input('Ingrese la direccion del archivo a agregar: ')) # D:\UM\Repos 3ro\Automatas y gramaticas\Final\final-automatas\archivo_prueba.csv
             new_file = pd.read_csv(path)
-            #if validate_file(new_file):   NO SE PORQUE NO TOMA LA VERIFICACIÓN CORRECTA, ANTES ME LA TOMABA BIEN
-            final_data = pd.concat([data, new_file], ignore_index=True)
-            final_data.to_csv('./Listado temas 2023.csv', index=False) # Con index=False no agrega la columna Unnamed y se pueden agregar muchos nuevos registros sin error, lo que no puedo agregar es que el index se autoincremente dependiendo del index del archivo principal
-            return final_data
-            #else: break
+            if validate_file(new_file):
+                new_file.set_index('Index', drop=False, append=False, inplace=True)
+                final_data = pd.concat([data, new_file], ignore_index=True)
+                final_data.set_index('Index', drop=False, append=False)
+                final_data.reset_index(inplace=True , drop=False)
+                final_data.drop('Index', inplace=True, axis=1)
+                final_data.rename(columns={'index':'Index'}, inplace=True)
+                final_data.to_csv('./Listado temas 2023.csv', index=False) # Con index=False no agrega la columna Unnamed y se pueden agregar muchos nuevos registros sin error, lo que no puedo agregar es que el index se autoincremente dependiendo del index del archivo principal
+                return final_data
+            else: break
         elif option == "3":
             break
         else:

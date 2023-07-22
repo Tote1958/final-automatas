@@ -243,15 +243,13 @@ def add_track():
             return final_data
         elif option == "2":
             data = csv_read()
-            path = str(input('Ingrese la direccion del archivo a agregar: ')) #D:\UM\Repos 3ro\Automatas y gramaticas\Final\final-automatas\archivo_prueba.csv
+            path = str(input('Ingrese la direccion del archivo a agregar: ')) # D:\UM\Repos 3ro\Automatas y gramaticas\Final\final-automatas\archivo_prueba.csv
             new_file = pd.read_csv(path)
-            if validate_file(new_file):
-                max_index = data.index.max()
-                new_file.index += max_index + 1
-                final_data = pd.concat([data, new_file], ignore_index=False)
-                final_data.to_csv('./Listado temas 2023.csv', index=False) # Con index=False no agrega la columna Unnamed y se pueden agregar muchos nuevos registros sin error, lo que no puedo agregar es que el index se autoincremente dependiendo del index del archivo principal
-                return final_data
-            else: break
+            #if validate_file(new_file):   NO SE PORQUE NO TOMA LA VERIFICACIÓN CORRECTA, ANTES ME LA TOMABA BIEN
+            final_data = pd.concat([data, new_file], ignore_index=True)
+            final_data.to_csv('./Listado temas 2023.csv', index=False) # Con index=False no agrega la columna Unnamed y se pueden agregar muchos nuevos registros sin error, lo que no puedo agregar es que el index se autoincremente dependiendo del index del archivo principal
+            return final_data
+            #else: break
         elif option == "3":
             break
         else:

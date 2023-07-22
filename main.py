@@ -66,7 +66,7 @@ while True:
     elif opcionMenu == "6":
         print("")
         print("Has pulsado la opción 6...")
-        print('Lor 10 Artistas con más vistas son:')
+        print('Los 10 Artistas con más vistas son:')
         list_artists_by_views()
         input('Presione enter para volver al menu ')
 

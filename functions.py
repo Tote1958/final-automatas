@@ -35,7 +35,6 @@ def list_most_ratio_songs():
 def search_track():
     data = csv_read()
     while True:
-        print('Ingrese el número de la opción que desee buscar')
         print("┌─────────────────────────────────────────────────────────────────┐")
         print("│       Ingrese el número de la opción que desee buscar           │")
         print(" ───────────────────────────────────────────────────────────────── ")
@@ -226,7 +225,7 @@ def add_track():
         print("┌────────────────────────────────────────────────────┐")
         print("│Seleccione su opción                                │")
         print(" ──────────────────────────────────────────────────── ")
-        print("│ 1 - Cargar una cancion a mano                      │")
+        print("│ 1 - Cargar una canción a mano                      │")
         print("│ 2 - Cargar una o mas canciones mediante un archivo │")
         print("│ 3 - Para salir                                     │")
         print("└────────────────────────────────────────────────────┘")
@@ -240,15 +239,17 @@ def add_track():
                 final_data.drop('Index', inplace=True, axis=1)    #La primera vez que lo corro anda, la segunda ya no genera el index
             except KeyError:
                 pass                                             #Con el Try borra el nombre pero aparece la columna como Unnamed : 0 
-            final_data.to_csv('./Listado temas 2023.csv')
+            final_data.to_csv('./Listado temas 2023.csv', index=False) # No agrega columna Unnamed de esta forma (index=False)
             return final_data
         elif option == "2":
             data = csv_read()
-            path = str(input('Ingrese la direccion del archivo a agregar: '))
+            path = str(input('Ingrese la direccion del archivo a agregar: ')) #D:\UM\Repos 3ro\Automatas y gramaticas\Final\final-automatas\archivo_prueba.csv
             new_file = pd.read_csv(path)
             if validate_file(new_file):
-                final_data = pd.concat([data, new_track], ignore_index=True)
-                final_data.to_csv('./Listado temas 2023.csv')
+                max_index = data.index.max()
+                new_file.index += max_index + 1
+                final_data = pd.concat([data, new_file], ignore_index=False)
+                final_data.to_csv('./Listado temas 2023.csv', index=False) # Con index=False no agrega la columna Unnamed y se pueden agregar muchos nuevos registros sin error, lo que no puedo agregar es que el index se autoincremente dependiendo del index del archivo principal
                 return final_data
             else: break
         elif option == "3":

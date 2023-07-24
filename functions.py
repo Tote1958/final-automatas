@@ -60,7 +60,7 @@ def search_track():
             borrar = 'cls' if os.name == 'nt' else 'clear'
             os.system(borrar)
             print("┌─────────────────────────────────────────────────────────────────────────┐")
-            print(' -------------Ingresó un valor invalido. Vuelva a intentar...------------- ')
+            print('|-------------Ingresó un valor invalido. Vuelva a intentar...-------------|')
             print("└─────────────────────────────────────────────────────────────────────────┘")
     result = data[data[filter].str.contains(name)]
     return result
@@ -91,11 +91,11 @@ def validate_manual_track():
             break
         print("Ha escrito algo mal, intente de nuevo")  
     while True:
-        album_type = input('Ingrese el tipo de album: ')                        # Que onda los tipos de album
-        REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\')+'
+        album_type = input('Ingrese el tipo de album: ')
+        REG_EX = r'album|single|compilation' # Solo pueden ser album, single o compilation
         if re.fullmatch(REG_EX, album_type):
             break
-        print("Ha escrito algo mal, intente de nuevo")  
+        print("Ha escrito algo mal, intente de nuevo... (recuerde que solo puede ser 'album', 'single' o 'compilation')")  
     while True:
         url = input('Ingrese la URL: ')
         REG_EX = r'(spotify:track:([a-zA-Z0-9])+)'
@@ -140,7 +140,7 @@ def validate_file(file):
         if re.fullmatch(REG_EX, artist):
             pass
         else:
-            print(f'La fila {i} no es valida, debido al que el artista {artist} no es aceptado por la expresion regular')
+            print(f'La fila {i} no es válida, debido al que el artista {artist} no es aceptado por la expresión regular')
             return False 
 
         url_spotify = file['Url_spotify'].values[i]   
@@ -148,7 +148,7 @@ def validate_file(file):
         if re.fullmatch(REG_EX, url_spotify):
             pass
         else:
-            print(f'La fila {i} no es valida, debido al que la Url_spotify {url_spotify} no es aceptada por la expresion regular')
+            print(f'La fila {i} no es válida, debido al que la Url_spotify {url_spotify} no es aceptada por la expresión regular')
             return False 
         
         track = file['Track'].values[i]
@@ -157,7 +157,7 @@ def validate_file(file):
         if re.fullmatch(REG_EX, track):
             pass
         else:
-            print(f'La fila {i} no es valida, debido al que el track {track} no es aceptado por la expresion regular')
+            print(f'La fila {i} no es válida, debido al que el track {track} no es aceptado por la expresión regular')
             return False 
 
         album = file['Album'].values[i]
@@ -165,15 +165,16 @@ def validate_file(file):
         if re.fullmatch(REG_EX, album):
             pass
         else:
-            print(f'La fila {i} no es valida, debido al que el album {album} no es aceptado por la expresion regular')
+            print(f'La fila {i} no es válida, debido al que el album {album} no es aceptado por la expresión regular')
             return False 
 
-        album_type = file['Album_type'].values[i]                       # Que onda los tipos de album
-        REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\')+'
+        album_type = file['Album_type'].values[i]
+        #REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\')+'
+        REG_EX = r'album|single|compilation' # Solo pueden ser album, single o compilation
         if re.fullmatch(REG_EX, album_type):
             pass
         else:
-            print(f'La fila {i} no es valida, debido al que el tipo de album {album_type} no es aceptado por la expresion regular')
+            print(f'La fila {i} no es válida, debido al que el tipo de album {album_type} no es aceptado por la expresión regular')
             return False 
 
         url = file['Uri'].values[i]
@@ -181,14 +182,14 @@ def validate_file(file):
         if re.fullmatch(REG_EX, url):
             pass
         else:
-            print(f'La fila {i} no es valida, debido al que el url {url} no es aceptado por la expresion regular')
+            print(f'La fila {i} no es válida, debido al que el url {url} no es aceptado por la expresión regular')
             return False 
         duration = str(int(file['Duration_ms'].values[i]))
         REG_EX = r'([0-9]+)'  #CHEQUEAR QUE ONDA CON LO DE MS
         if re.fullmatch(REG_EX, duration):
             pass
         else:
-            print(f'La fila {i} no es valida, debido al que la duracion {duration} no es aceptado por la expresion regular')
+            print(f'La fila {i} no es válida, debido al que la duración {duration} no es aceptado por la expresión regular')
             return False
 
         url_youtube = file['Url_youtube'].values[i]
@@ -197,7 +198,7 @@ def validate_file(file):
         if re.fullmatch(REG_EX, url_youtube):                                           #El error que tira esta bien, between de bars no tiene streams por ejemplo
             pass
         else:
-            print(f'La fila {i} no es valida, debido al que el url de youtube {url_youtube} no es aceptado por la expresion regular')
+            print(f'La fila {i} no es válida, debido al que el url de youtube {url_youtube} no es aceptado por la expresión regular')
             return False
 
         title = file['Title'].values[i]
@@ -206,7 +207,7 @@ def validate_file(file):
         if re.fullmatch(REG_EX, title):
             pass
         else:
-            print(f'La fila {i} no es valida, debido al que el titulo {title} no es aceptado por la expresion regular')
+            print(f'La fila {i} no es válida, debido al que el titulo {title} no es aceptado por la expresión regular')
             return False
         
     return True
@@ -224,7 +225,7 @@ def add_track():
     while True:
         print("┌────────────────────────────────────────────────────┐")
         print("│Seleccione su opción                                │")
-        print(" ──────────────────────────────────────────────────── ")
+        print("|────────────────────────────────────────────────────|")
         print("│ 1 - Cargar una canción a mano                      │")
         print("│ 2 - Cargar una o mas canciones mediante un archivo │")
         print("│ 3 - Para salir                                     │")
@@ -236,7 +237,7 @@ def add_track():
             new_track = validate_manual_track()
             final_data = pd.concat([data, new_track], ignore_index=True)
             try:
-                final_data.drop('Index', inplace=True, axis=1)    #La primera vez que lo corro anda, la segunda ya no genera el index
+                final_data.drop('Index', inplace=True, axis=1)
             except KeyError:
                 pass                                             #Con el Try borra el nombre pero aparece la columna como Unnamed : 0 
             final_data.to_csv('./Listado temas 2023.csv', index=False) # No agrega columna Unnamed de esta forma (index=False)

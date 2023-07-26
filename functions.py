@@ -193,7 +193,6 @@ def validate_file(file):
             return False
 
         url_youtube = file['Url_youtube'].values[i]
-        print(url_youtube)
         REG_EX = r'((https://)?(www\.)?(youtube\.com/watch\?v=)([a-zA-Z0-9]|\_|\-)+)'
         if re.fullmatch(REG_EX, url_youtube):                                           #El error que tira esta bien, between de bars no tiene streams por ejemplo
             pass
@@ -213,8 +212,110 @@ def validate_file(file):
     return True
 
 
+def incorrect_file(file):
+        final_file = file
+        while True:
+            print("┌────────────────────────────────────────────────────────┐")
+            print("│ El archivo tiene filas con campos incorrectos          │")
+            print("│ Seleccione una opción:                                 │")
+            print("|────────────────────────────────────────────────────────|")
+            print("│ 1 - Añadir el archivo salteando los campos incorrectos │")
+            print("│ 2 - No añadir el archivo                               │")
+            print("└────────────────────────────────────────────────────────┘")
+            option = str(input('--> '))
+            if option == "1":
+                for i in range(final_file['Index'].max() + 1):
+                    artist = final_file['Artist'].values[i]
+                    #REG_EX = r'([a-zA-Z0-9]| )+'
+                    REG_EX = r'(.)+'
+                    if re.fullmatch(REG_EX, artist):
+                        pass
+                    else:
+                        print(f'La fila {i} no es válida, debido al que el artista {artist} no es aceptado por la expresión regular')
+                        final_file.drop([i],axis=0)
+                        continue
+
+                    url_spotify = final_file['Url_spotify'].values[i]   
+                    REG_EX = r'((https://)?(www\.)?(open\.spotify\.com/track/|open\.spotify\.com/artist/)([a-zA-Z0-9]|\_)+)'
+                    if re.fullmatch(REG_EX, url_spotify):
+                        pass
+                    else:
+                        print(f'La fila {i} no es válida, debido al que la Url_spotify {url_spotify} no es aceptada por la expresión regular')
+                        final_file.drop([i],axis=0)
+                        continue
+                    
+                    track = final_file['Track'].values[i]
+                    #REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\')+'
+                    REG_EX = r'(.)+'
+                    if re.fullmatch(REG_EX, track):
+                        pass
+                    else:
+                        print(f'La fila {i} no es válida, debido al que el track {track} no es aceptado por la expresión regular')
+                        final_file.drop([i],axis=0)
+                        continue
+
+                    album = final_file['Album'].values[i]
+                    #REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\')+'          
+                    if re.fullmatch(REG_EX, album):
+                        pass
+                    else:
+                        print(f'La fila {i} no es válida, debido al que el album {album} no es aceptado por la expresión regular')
+                        final_file.drop([i],axis=0)
+                        continue
+
+                    album_type = final_file['Album_type'].values[i]
+                    #REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\')+'
+                    REG_EX = r'album|single|compilation' # Solo pueden ser album, single o compilation
+                    if re.fullmatch(REG_EX, album_type):
+                        pass
+                    else:
+                        print(f'La fila {i} no es válida, debido al que el tipo de album {album_type} no es aceptado por la expresión regular')
+                        final_file.drop([i],axis=0)
+                        continue
+
+                    url = final_file['Uri'].values[i]
+                    REG_EX = r'(spotify:track:([a-zA-Z0-9])+)'
+                    if re.fullmatch(REG_EX, url):
+                        pass
+                    else:
+                        print(f'La fila {i} no es válida, debido al que el url {url} no es aceptado por la expresión regular')
+                        final_file.drop([i],axis=0)
+                        continue 
+                    duration = str(int(final_file['Duration_ms'].values[i]))
+                    REG_EX = r'([0-9]+)'  #CHEQUEAR QUE ONDA CON LO DE MS
+                    if re.fullmatch(REG_EX, duration):
+                        pass
+                    else:
+                        print(f'La fila {i} no es válida, debido al que la duración {duration} no es aceptado por la expresión regular')
+                        final_file.drop([i],axis=0)
+                        continue
+
+                    url_youtube = final_file['Url_youtube'].values[i]
+                    REG_EX = r'((https://)?(www\.)?(youtube\.com/watch\?v=)([a-zA-Z0-9]|\_|\-)+)'
+                    if re.fullmatch(REG_EX, url_youtube):                                           #El error que tira esta bien, between de bars no tiene streams por ejemplo
+                        pass
+                    else:
+                        print(f'La fila {i} no es válida, debido al que el url de youtube {url_youtube} no es aceptado por la expresión regular')
+                        final_file.drop([i],axis=0)
+                        continue
+
+                    title = final_file['Title'].values[i]
+                    #REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\'|\[|\])+'
+                    REG_EX = r'(.)+'          #Le puse un punto porque hay muchos simbolos 
+                    if re.fullmatch(REG_EX, title):
+                        pass
+                    else:
+                        print(f'La fila {i} no es válida, debido al que el titulo {title} no es aceptado por la expresión regular')
+                        final_file.drop([i],axis=0)
+                        continue
+                return final_file
 
 
+            elif option == "2":
+                return False
+            else:
+                print("")
+                print("No has pulsado ninguna opción correcta...")
 
 
 
@@ -224,7 +325,7 @@ def add_track():
     data = csv_read()
     while True:
         print("┌────────────────────────────────────────────────────┐")
-        print("│Seleccione su opción                                │")
+        print("│ Seleccione una opción                                │")
         print("|────────────────────────────────────────────────────|")
         print("│ 1 - Cargar una canción a mano                      │")
         print("│ 2 - Cargar una o mas canciones mediante un archivo │")
@@ -245,8 +346,9 @@ def add_track():
         elif option == "2":
             data = csv_read()
             path = str(input('Ingrese la direccion del archivo a agregar: ')) # D:\UM\Repos 3ro\Automatas y gramaticas\Final\final-automatas\archivo_prueba.csv
-            new_file = pd.read_csv(path)
-            if validate_file(new_file):
+            new_file = pd.read_csv(path)                                     # ./archivo_prueba.csv
+            file_validation = validate_file(new_file)
+            if file_validation is True:
                 new_file.set_index('Index', drop=False, append=False, inplace=True)
                 final_data = pd.concat([data, new_file], ignore_index=True)
                 final_data.set_index('Index', drop=False, append=False)
@@ -255,7 +357,22 @@ def add_track():
                 final_data.rename(columns={'index':'Index'}, inplace=True)
                 final_data.to_csv('./Listado temas 2023.csv', index=False) # Con index=False no agrega la columna Unnamed y se pueden agregar muchos nuevos registros sin error, lo que no puedo agregar es que el index se autoincremente dependiendo del index del archivo principal
                 return final_data
-            else: break
+            elif file_validation is False:
+                processed_data = incorrect_file(new_file)
+                if processed_data is False:
+                    return "Ha decidido no añadir el archivo con errores"
+                else:
+                    processed_data.set_index('Index', drop=False, append=False, inplace=True)
+                    final_data = pd.concat([data, processed_data], ignore_index=True)
+                    final_data.set_index('Index', drop=False, append=False)
+                    final_data.reset_index(inplace=True , drop=False)
+                    final_data.drop('Index', inplace=True, axis=1)
+                    final_data.rename(columns={'index':'Index'}, inplace=True)
+                    final_data.to_csv('./Listado temas 2023.csv', index=False)
+                    return final_data
+
+            else: 
+                break
         elif option == "3":
             break
         else:

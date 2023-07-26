@@ -418,7 +418,7 @@ def incorrect_file(file):
                         pass
                     else:
                         print(f'La fila {i} no es válida, debido al que el titulo {title} no es aceptado por la expresión regular')
-                        file.drop([i],axis=0,inplace=True)
+                        index_to_drop.append(i)
                         continue
                 for i in index_to_drop:
                     file.drop([i],axis=0,inplace=True)

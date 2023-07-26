@@ -137,68 +137,116 @@ def validate_file(file):
         artist = file['Artist'].values[i]
         #REG_EX = r'([a-zA-Z0-9]| )+'
         REG_EX = r'(.)+'
-        if re.fullmatch(REG_EX, artist):
-            pass
+        try:
+            re.fullmatch(REG_EX, artist)
+        except TypeError:
+            print(f'La fila {i} no es válida, debido al que el artista esta vacio')
+            return False
         else:
-            print(f'La fila {i} no es válida, debido al que el artista {artist} no es aceptado por la expresión regular')
-            return False 
+            if re.fullmatch(REG_EX, artist):
+                pass
+            else:
+                print(f'La fila {i} no es válida, debido al que el artista {artist} no es aceptado por la expresión regular')
+                return False 
 
         url_spotify = file['Url_spotify'].values[i]   
         REG_EX = r'((https://)?(www\.)?(open\.spotify\.com/track/|open\.spotify\.com/artist/)([a-zA-Z0-9]|\_)+)'
-        if re.fullmatch(REG_EX, url_spotify):
-            pass
+        try:
+            re.fullmatch(REG_EX, url_spotify)
+        except TypeError:
+            print(f'La fila {i} no es válida, debido al que el url de spotify esta vacio')
+            return False
         else:
-            print(f'La fila {i} no es válida, debido al que la Url_spotify {url_spotify} no es aceptada por la expresión regular')
-            return False 
+            if re.fullmatch(REG_EX, url_spotify):
+                pass
+            else:
+                print(f'La fila {i} no es válida, debido al que la Url_spotify {url_spotify} no es aceptada por la expresión regular')
+                return False 
         
         track = file['Track'].values[i]
         #REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\')+'
         REG_EX = r'(.)+'
-        if re.fullmatch(REG_EX, track):
-            pass
+        try:
+            re.fullmatch(REG_EX, track)
+        except TypeError:
+            print(f'La fila {i} no es válida, debido al que track esta vacio')
+            return False
         else:
-            print(f'La fila {i} no es válida, debido al que el track {track} no es aceptado por la expresión regular')
-            return False 
+            if re.fullmatch(REG_EX, track):
+                pass
+            else:
+                print(f'La fila {i} no es válida, debido al que el track {track} no es aceptado por la expresión regular')
+                return False 
 
         album = file['Album'].values[i]
         #REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\')+'          
-        if re.fullmatch(REG_EX, album):
-            pass
+        try:
+            re.fullmatch(REG_EX, album)
+        except TypeError:
+            print(f'La fila {i} no es válida, debido al que el album esta vacio')
+            return False
         else:
-            print(f'La fila {i} no es válida, debido al que el album {album} no es aceptado por la expresión regular')
-            return False 
+            if re.fullmatch(REG_EX, album):
+                pass
+            else:
+                print(f'La fila {i} no es válida, debido al que el album {album} no es aceptado por la expresión regular')
+                return False 
 
         album_type = file['Album_type'].values[i]
         #REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\')+'
         REG_EX = r'album|single|compilation' # Solo pueden ser album, single o compilation
-        if re.fullmatch(REG_EX, album_type):
-            pass
+        try:
+            re.fullmatch(REG_EX, album_type)
+        except TypeError:
+            print(f'La fila {i} no es válida, debido al que el tipo de album esta vacio')
+            return False
         else:
-            print(f'La fila {i} no es válida, debido al que el tipo de album {album_type} no es aceptado por la expresión regular')
-            return False 
+            if re.fullmatch(REG_EX, album_type):
+                pass
+            else:
+                print(f'La fila {i} no es válida, debido al que el tipo de album {album_type} no es aceptado por la expresión regular')
+                return False 
 
         url = file['Uri'].values[i]
         REG_EX = r'(spotify:track:([a-zA-Z0-9])+)'
-        if re.fullmatch(REG_EX, url):
-            pass
+        try:
+            re.fullmatch(REG_EX, url)
+        except TypeError:
+            print(f'La fila {i} no es válida, debido al que el url esta vacio')
+            return False
         else:
-            print(f'La fila {i} no es válida, debido al que el url {url} no es aceptado por la expresión regular')
-            return False 
+            if re.fullmatch(REG_EX, url):
+                pass
+            else:
+                print(f'La fila {i} no es válida, debido al que el url {url} no es aceptado por la expresión regular')
+                return False 
         duration = str(int(file['Duration_ms'].values[i]))
         REG_EX = r'([0-9]+)'  #CHEQUEAR QUE ONDA CON LO DE MS
-        if re.fullmatch(REG_EX, duration):
-            pass
-        else:
-            print(f'La fila {i} no es válida, debido al que la duración {duration} no es aceptado por la expresión regular')
+        try:
+            re.fullmatch(REG_EX, duration)
+        except TypeError:
+            print(f'La fila {i} no es válida, debido al que la duracion esta vacia')
             return False
+        else:
+            if re.fullmatch(REG_EX, duration):
+                pass
+            else:
+                print(f'La fila {i} no es válida, debido al que la duración {duration} no es aceptado por la expresión regular')
+                return False
 
         url_youtube = file['Url_youtube'].values[i]
         REG_EX = r'((https://)?(www\.)?(youtube\.com/watch\?v=)([a-zA-Z0-9]|\_|\-)+)'
-        if re.fullmatch(REG_EX, url_youtube):                                           #El error que tira esta bien, between de bars no tiene streams por ejemplo
-            pass
-        else:
-            print(f'La fila {i} no es válida, debido al que el url de youtube {url_youtube} no es aceptado por la expresión regular')
+        try:
+            re.fullmatch(REG_EX, url_youtube)
+        except TypeError:
+            print(f'La fila {i} no es válida, debido al que el url de youtube esta vacio')
             return False
+        else:
+            if re.fullmatch(REG_EX, url_youtube):                                           #El error que tira esta bien, between de bars no tiene streams por ejemplo
+                pass
+            else:
+                print(f'La fila {i} no es válida, debido al que el url de youtube {url_youtube} no es aceptado por la expresión regular')
+                return False
 
         title = file['Title'].values[i]
         #REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\'|\[|\])+'
@@ -213,7 +261,7 @@ def validate_file(file):
 
 
 def incorrect_file(file):
-        final_file = file
+        
         while True:
             print("┌────────────────────────────────────────────────────────┐")
             print("│ El archivo tiene filas con campos incorrectos          │")
@@ -224,91 +272,157 @@ def incorrect_file(file):
             print("└────────────────────────────────────────────────────────┘")
             option = str(input('--> '))
             if option == "1":
-                for i in range(final_file['Index'].max() + 1):
-                    artist = final_file['Artist'].values[i]
+                
+                            
+                for i in range(file['Index'].max() + 1):
+                    artist = file['Artist'].values[i]
                     #REG_EX = r'([a-zA-Z0-9]| )+'
                     REG_EX = r'(.)+'
-                    if re.fullmatch(REG_EX, artist):
-                        pass
-                    else:
-                        print(f'La fila {i} no es válida, debido al que el artista {artist} no es aceptado por la expresión regular')
-                        final_file.drop([i],axis=0)
+                    try:
+                        re.fullmatch(REG_EX, artist)
+                    except TypeError:
+                        print(f'La fila {i} no es válida, debido al que el artista esta vacio')
+                        file.drop([i],axis=0,inplace=True)
                         continue
+                    else:
+                        if re.fullmatch(REG_EX, artist):
+                            pass
+                        else:
+                            print(f'La fila {i} no es válida, debido al que el artista {artist} no es aceptado por la expresión regular')
+                            file.drop([i],axis=0,inplace=True)
+                            continue
 
-                    url_spotify = final_file['Url_spotify'].values[i]   
+                    url_spotify = file['Url_spotify'].values[i]   
                     REG_EX = r'((https://)?(www\.)?(open\.spotify\.com/track/|open\.spotify\.com/artist/)([a-zA-Z0-9]|\_)+)'
-                    if re.fullmatch(REG_EX, url_spotify):
-                        pass
-                    else:
-                        print(f'La fila {i} no es válida, debido al que la Url_spotify {url_spotify} no es aceptada por la expresión regular')
-                        final_file.drop([i],axis=0)
+                    try:
+                        re.fullmatch(REG_EX, url_spotify)
+                    except TypeError:
+                        print(f'La fila {i} no es válida, debido al que el url de spotify esta vacio')
+                        file.drop([i],axis=0,inplace=True)
                         continue
+                    else:
+                        if re.fullmatch(REG_EX, url_spotify):
+                            pass
+                        else:
+                            print(f'La fila {i} no es válida, debido al que la Url_spotify {url_spotify} no es aceptada por la expresión regular')
+                            file.drop([i],axis=0,inplace=True)
+                            continue        
                     
-                    track = final_file['Track'].values[i]
+                    track = file['Track'].values[i]
                     #REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\')+'
                     REG_EX = r'(.)+'
-                    if re.fullmatch(REG_EX, track):
-                        pass
-                    else:
-                        print(f'La fila {i} no es válida, debido al que el track {track} no es aceptado por la expresión regular')
-                        final_file.drop([i],axis=0)
+                    try:
+                        re.fullmatch(REG_EX, track)
+                    except TypeError:
+                        print(f'La fila {i} no es válida, debido al que track esta vacio')
+                        file.drop([i],axis=0,inplace=True)
                         continue
+                    else:
+                        if re.fullmatch(REG_EX, track):
+                            pass
+                        else:
+                            print(f'La fila {i} no es válida, debido al que el track {track} no es aceptado por la expresión regular')
+                            file.drop([i],axis=0,inplace=True)
+                            continue
 
-                    album = final_file['Album'].values[i]
+                    album = file['Album'].values[i]
                     #REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\')+'          
-                    if re.fullmatch(REG_EX, album):
-                        pass
-                    else:
-                        print(f'La fila {i} no es válida, debido al que el album {album} no es aceptado por la expresión regular')
-                        final_file.drop([i],axis=0)
+                    try:
+                        re.fullmatch(REG_EX, album)
+                    except TypeError:
+                        print(f'La fila {i} no es válida, debido al que el album esta vacio')
+                        file.drop([i],axis=0,inplace=True)
                         continue
+                    else:
+                        if re.fullmatch(REG_EX, album):
+                            pass
+                        else:
+                            print(f'La fila {i} no es válida, debido al que el album {album} no es aceptado por la expresión regular')
+                            file.drop([i],axis=0,inplace=True)
+                            continue 
 
-                    album_type = final_file['Album_type'].values[i]
+                    album_type = file['Album_type'].values[i]
                     #REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\')+'
                     REG_EX = r'album|single|compilation' # Solo pueden ser album, single o compilation
-                    if re.fullmatch(REG_EX, album_type):
-                        pass
-                    else:
-                        print(f'La fila {i} no es válida, debido al que el tipo de album {album_type} no es aceptado por la expresión regular')
-                        final_file.drop([i],axis=0)
+                    try:
+                        re.fullmatch(REG_EX, album_type)
+                    except TypeError:
+                        print(f'La fila {i} no es válida, debido al que el tipo de album esta vacio')
+                        file.drop([i],axis=0,inplace=True)
                         continue
+                    else:
+                        if re.fullmatch(REG_EX, album_type):
+                            pass
+                        else:
+                            print(f'La fila {i} no es válida, debido al que el tipo de album {album_type} no es aceptado por la expresión regular')
+                            file.drop([i],axis=0,inplace=True)
+                            continue 
 
-                    url = final_file['Uri'].values[i]
+                    url = file['Uri'].values[i]
                     REG_EX = r'(spotify:track:([a-zA-Z0-9])+)'
-                    if re.fullmatch(REG_EX, url):
-                        pass
+                    try:
+                        re.fullmatch(REG_EX, url)
+                    except TypeError:
+                        print(f'La fila {i} no es válida, debido al que el url esta vacio')
+                        file.drop([i],axis=0,inplace=True)
+                        continue
                     else:
-                        print(f'La fila {i} no es válida, debido al que el url {url} no es aceptado por la expresión regular')
-                        final_file.drop([i],axis=0)
-                        continue 
-                    duration = str(int(final_file['Duration_ms'].values[i]))
+                        if re.fullmatch(REG_EX, url):
+                            pass
+                        else:
+                            print(f'La fila {i} no es válida, debido al que el url {url} no es aceptado por la expresión regular')
+                            file.drop([i],axis=0,inplace=True)
+                            continue
+                    try:
+                        duration = str(int(file['Duration_ms'].values[i]))
+                    except ValueError:
+                        print(f'La fila {i} no es válida, debido al que la duracion esta vacia')
+                        file.drop([i],axis=0,inplace=True)
+                        continue
+                    
                     REG_EX = r'([0-9]+)'  #CHEQUEAR QUE ONDA CON LO DE MS
-                    if re.fullmatch(REG_EX, duration):
-                        pass
-                    else:
-                        print(f'La fila {i} no es válida, debido al que la duración {duration} no es aceptado por la expresión regular')
-                        final_file.drop([i],axis=0)
+                    try:
+                        re.fullmatch(REG_EX, duration)
+                    except TypeError:
+                        print(f'La fila {i} no es válida, debido al que la duracion esta vacia')
+                        file.drop([i],axis=0,inplace=True)
                         continue
+                    else:
+                        if re.fullmatch(REG_EX, duration):
+                            pass
+                        else:
+                            print(f'La fila {i} no es válida, debido al que la duración {duration} no es aceptado por la expresión regular')
+                            file.drop([i],axis=0,inplace=True)
+                            continue
 
-                    url_youtube = final_file['Url_youtube'].values[i]
+                    url_youtube = file['Url_youtube'].values[i]
                     REG_EX = r'((https://)?(www\.)?(youtube\.com/watch\?v=)([a-zA-Z0-9]|\_|\-)+)'
-                    if re.fullmatch(REG_EX, url_youtube):                                           #El error que tira esta bien, between de bars no tiene streams por ejemplo
-                        pass
-                    else:
-                        print(f'La fila {i} no es válida, debido al que el url de youtube {url_youtube} no es aceptado por la expresión regular')
-                        final_file.drop([i],axis=0)
+                    try:
+                        re.fullmatch(REG_EX, url_youtube)
+                    except TypeError:
+                        print(f'La fila {i} no es válida, debido al que el url de youtube esta vacio')
+                        file.drop([i],axis=0,inplace=True)
                         continue
+                    else:
+                        if re.fullmatch(REG_EX, url_youtube):                                           #El error que tira esta bien, between de bars no tiene streams por ejemplo
+                            pass
+                        else:
+                            print(f'La fila {i} no es válida, debido al que el url de youtube {url_youtube} no es aceptado por la expresión regular')
+                            file.drop([i],axis=0,inplace=True)
+                            continue
 
-                    title = final_file['Title'].values[i]
+                    title = file['Title'].values[i]
                     #REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\'|\[|\])+'
                     REG_EX = r'(.)+'          #Le puse un punto porque hay muchos simbolos 
                     if re.fullmatch(REG_EX, title):
                         pass
                     else:
                         print(f'La fila {i} no es válida, debido al que el titulo {title} no es aceptado por la expresión regular')
-                        final_file.drop([i],axis=0)
+                        file.drop([i],axis=0,inplace=True)
                         continue
-                return final_file
+                return file
+
+
 
 
             elif option == "2":

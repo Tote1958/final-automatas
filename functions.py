@@ -261,7 +261,7 @@ def validate_file(file):
 
 
 def incorrect_file(file):
-        
+        index_to_drop = []
         while True:
             print("┌────────────────────────────────────────────────────────┐")
             print("│ El archivo tiene filas con campos incorrectos          │")
@@ -282,14 +282,14 @@ def incorrect_file(file):
                         re.fullmatch(REG_EX, artist)
                     except TypeError:
                         print(f'La fila {i} no es válida, debido al que el artista esta vacio')
-                        file.drop([i],axis=0,inplace=True)
+                        index_to_drop.append(i)
                         continue
                     else:
                         if re.fullmatch(REG_EX, artist):
                             pass
                         else:
                             print(f'La fila {i} no es válida, debido al que el artista {artist} no es aceptado por la expresión regular')
-                            file.drop([i],axis=0,inplace=True)
+                            index_to_drop.append(i)
                             continue
 
                     url_spotify = file['Url_spotify'].values[i]   
@@ -298,14 +298,14 @@ def incorrect_file(file):
                         re.fullmatch(REG_EX, url_spotify)
                     except TypeError:
                         print(f'La fila {i} no es válida, debido al que el url de spotify esta vacio')
-                        file.drop([i],axis=0,inplace=True)
+                        index_to_drop.append(i)
                         continue
                     else:
                         if re.fullmatch(REG_EX, url_spotify):
                             pass
                         else:
                             print(f'La fila {i} no es válida, debido al que la Url_spotify {url_spotify} no es aceptada por la expresión regular')
-                            file.drop([i],axis=0,inplace=True)
+                            index_to_drop.append(i)
                             continue        
                     
                     track = file['Track'].values[i]
@@ -315,14 +315,14 @@ def incorrect_file(file):
                         re.fullmatch(REG_EX, track)
                     except TypeError:
                         print(f'La fila {i} no es válida, debido al que track esta vacio')
-                        file.drop([i],axis=0,inplace=True)
+                        index_to_drop.append(i)
                         continue
                     else:
                         if re.fullmatch(REG_EX, track):
                             pass
                         else:
                             print(f'La fila {i} no es válida, debido al que el track {track} no es aceptado por la expresión regular')
-                            file.drop([i],axis=0,inplace=True)
+                            index_to_drop.append(i)
                             continue
 
                     album = file['Album'].values[i]
@@ -331,14 +331,14 @@ def incorrect_file(file):
                         re.fullmatch(REG_EX, album)
                     except TypeError:
                         print(f'La fila {i} no es válida, debido al que el album esta vacio')
-                        file.drop([i],axis=0,inplace=True)
+                        index_to_drop.append(i)
                         continue
                     else:
                         if re.fullmatch(REG_EX, album):
                             pass
                         else:
                             print(f'La fila {i} no es válida, debido al que el album {album} no es aceptado por la expresión regular')
-                            file.drop([i],axis=0,inplace=True)
+                            index_to_drop.append(i)
                             continue 
 
                     album_type = file['Album_type'].values[i]
@@ -348,14 +348,14 @@ def incorrect_file(file):
                         re.fullmatch(REG_EX, album_type)
                     except TypeError:
                         print(f'La fila {i} no es válida, debido al que el tipo de album esta vacio')
-                        file.drop([i],axis=0,inplace=True)
+                        index_to_drop.append(i)
                         continue
                     else:
                         if re.fullmatch(REG_EX, album_type):
                             pass
                         else:
                             print(f'La fila {i} no es válida, debido al que el tipo de album {album_type} no es aceptado por la expresión regular')
-                            file.drop([i],axis=0,inplace=True)
+                            index_to_drop.append(i)
                             continue 
 
                     url = file['Uri'].values[i]
@@ -364,20 +364,20 @@ def incorrect_file(file):
                         re.fullmatch(REG_EX, url)
                     except TypeError:
                         print(f'La fila {i} no es válida, debido al que el url esta vacio')
-                        file.drop([i],axis=0,inplace=True)
+                        index_to_drop.append(i)
                         continue
                     else:
                         if re.fullmatch(REG_EX, url):
                             pass
                         else:
                             print(f'La fila {i} no es válida, debido al que el url {url} no es aceptado por la expresión regular')
-                            file.drop([i],axis=0,inplace=True)
+                            index_to_drop.append(i)
                             continue
                     try:
                         duration = str(int(file['Duration_ms'].values[i]))
                     except ValueError:
                         print(f'La fila {i} no es válida, debido al que la duracion esta vacia')
-                        file.drop([i],axis=0,inplace=True)
+                        index_to_drop.append(i)
                         continue
                     
                     REG_EX = r'([0-9]+)'  #CHEQUEAR QUE ONDA CON LO DE MS
@@ -385,14 +385,14 @@ def incorrect_file(file):
                         re.fullmatch(REG_EX, duration)
                     except TypeError:
                         print(f'La fila {i} no es válida, debido al que la duracion esta vacia')
-                        file.drop([i],axis=0,inplace=True)
+                        index_to_drop.append(i)
                         continue
                     else:
                         if re.fullmatch(REG_EX, duration):
                             pass
                         else:
                             print(f'La fila {i} no es válida, debido al que la duración {duration} no es aceptado por la expresión regular')
-                            file.drop([i],axis=0,inplace=True)
+                            index_to_drop.append(i)
                             continue
 
                     url_youtube = file['Url_youtube'].values[i]
@@ -401,14 +401,14 @@ def incorrect_file(file):
                         re.fullmatch(REG_EX, url_youtube)
                     except TypeError:
                         print(f'La fila {i} no es válida, debido al que el url de youtube esta vacio')
-                        file.drop([i],axis=0,inplace=True)
+                        index_to_drop.append(i)
                         continue
                     else:
                         if re.fullmatch(REG_EX, url_youtube):                                           #El error que tira esta bien, between de bars no tiene streams por ejemplo
                             pass
                         else:
                             print(f'La fila {i} no es válida, debido al que el url de youtube {url_youtube} no es aceptado por la expresión regular')
-                            file.drop([i],axis=0,inplace=True)
+                            index_to_drop.append(i)
                             continue
 
                     title = file['Title'].values[i]
@@ -420,6 +420,8 @@ def incorrect_file(file):
                         print(f'La fila {i} no es válida, debido al que el titulo {title} no es aceptado por la expresión regular')
                         file.drop([i],axis=0,inplace=True)
                         continue
+                for i in index_to_drop:
+                    file.drop([i],axis=0,inplace=True)
                 return file
 
 

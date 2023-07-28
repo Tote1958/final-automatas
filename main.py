@@ -30,10 +30,13 @@ while True:
         print("Has pulsado la opción 1...")
         print('Las canciones con mas likes son:')
         print(list_most_liked_songs())
+        print('=====================================================')
         print('Las canciones con mas vistas son:')
         print(list_most_viewed_songs())
+        print('=======================================================')
         print('Las canciones con mas comentarios son:')
         print(list_most_commented_songs())
+        print('===================================================')
         input('Presione enter para volver al menu ')
        
     elif opcionMenu == "2":
@@ -41,6 +44,7 @@ while True:
         print("Has pulsado la opción 2...")
         print("Las canciones con mejor ratio son:")
         print(list_most_ratio_songs())
+        print('==============================')
         input('Presione enter para volver al menu ')
         
     elif opcionMenu == "3":

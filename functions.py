@@ -42,7 +42,7 @@ def search_track():
         print("│ 2 - Album                                                       │")
         print("│ 3 - Artista                                                     │")
         print("└─────────────────────────────────────────────────────────────────┘")
-        opcionMenu = input('--> ')  # solicitamos una opción al usuario
+        opcionMenu = input('--> ')
         print("┌────────────────────────────────────────────────┐")
         print("│       Ingrese el nombre que desee buscar       │")
         print("└────────────────────────────────────────────────┘")
@@ -73,7 +73,7 @@ def validate_manual_track():
             break
         print("Ha escrito algo mal, intente de nuevo") 
     while True:
-        url_spotify = input('Ingrese la URL de Spotify: ')    #url de ejemplo: https://open.spotify.com/track/5HNCy40Ni5BZJFw1TKzRsC?si=26024379e98f4ba6
+        url_spotify = input('Ingrese la URL de Spotify: ')
         REG_EX = r'((https://)?(www\.)?(open\.spotify\.com/track/|open\.spotify\.com/artist/)([a-zA-Z0-9]|\_)+)'
         if re.fullmatch(REG_EX, url_spotify):
             break
@@ -92,7 +92,7 @@ def validate_manual_track():
         print("Ha escrito algo mal, intente de nuevo")  
     while True:
         album_type = input('Ingrese el tipo de album: ')
-        REG_EX = r'album|single|compilation' # Solo pueden ser album, single o compilation
+        REG_EX = r'album|single|compilation'
         if re.fullmatch(REG_EX, album_type):
             break
         print("Ha escrito algo mal, intente de nuevo... (recuerde que solo puede ser 'album', 'single' o 'compilation')")  
@@ -104,7 +104,7 @@ def validate_manual_track():
         print("Ha escrito algo mal, intente de nuevo") 
     while True:
         duration = str(input('Ingrese la duracion (en milisegundos, en enteros, sin las siglas, ni letras): '))
-        REG_EX = r'([0-9]+)'  #CHEQUEAR QUE ONDA CON LO DE MS
+        REG_EX = r'([0-9]+)'
         if re.fullmatch(REG_EX, duration):
             break 
         print("Ha escrito algo mal, intente de nuevo") 
@@ -125,7 +125,7 @@ def validate_manual_track():
                          'Track': track,
                          'Album': album,
                          'Album_type':album_type,
-                         'Uri':url,  #EL CSV DICE URI, NO URL, ESTA BIEN ESO?
+                         'Uri':url,
                          'Duration_ms': float(duration),
                          'Url_youtube':url_youtube,
                          'Title':title}, index=[0]) 
@@ -135,7 +135,6 @@ def validate_manual_track():
 def validate_file(file):
     for i in range(file['Index'].max() + 1):
         artist = file['Artist'].values[i]
-        #REG_EX = r'([a-zA-Z0-9]| )+'
         REG_EX = r'(.)+'
         try:
             re.fullmatch(REG_EX, artist)
@@ -164,7 +163,6 @@ def validate_file(file):
                 return False 
         
         track = file['Track'].values[i]
-        #REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\')+'
         REG_EX = r'(.)+'
         try:
             re.fullmatch(REG_EX, track)
@@ -179,7 +177,7 @@ def validate_file(file):
                 return False 
 
         album = file['Album'].values[i]
-        #REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\')+'          
+        REG_EX = r'(.)+'          
         try:
             re.fullmatch(REG_EX, album)
         except TypeError:
@@ -193,8 +191,7 @@ def validate_file(file):
                 return False 
 
         album_type = file['Album_type'].values[i]
-        #REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\')+'
-        REG_EX = r'album|single|compilation' # Solo pueden ser album, single o compilation
+        REG_EX = r'album|single|compilation'
         try:
             re.fullmatch(REG_EX, album_type)
         except TypeError:
@@ -221,7 +218,7 @@ def validate_file(file):
                 print(f'La fila {i} no es válida, debido al que el url {url} no es aceptado por la expresión regular')
                 return False 
         duration = str(int(file['Duration_ms'].values[i]))
-        REG_EX = r'([0-9]+)'  #CHEQUEAR QUE ONDA CON LO DE MS
+        REG_EX = r'([0-9]+)'
         try:
             re.fullmatch(REG_EX, duration)
         except TypeError:
@@ -242,15 +239,14 @@ def validate_file(file):
             print(f'La fila {i} no es válida, debido al que el url de youtube esta vacio')
             return False
         else:
-            if re.fullmatch(REG_EX, url_youtube):                                           #El error que tira esta bien, between de bars no tiene streams por ejemplo
+            if re.fullmatch(REG_EX, url_youtube):
                 pass
             else:
                 print(f'La fila {i} no es válida, debido al que el url de youtube {url_youtube} no es aceptado por la expresión regular')
                 return False
 
         title = file['Title'].values[i]
-        #REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\'|\[|\])+'
-        REG_EX = r'(.)+'          #Le puse un punto porque hay muchos simbolos 
+        REG_EX = r'(.)+'
         if re.fullmatch(REG_EX, title):
             pass
         else:
@@ -276,7 +272,6 @@ def incorrect_file(file):
                             
                 for i in range(file['Index'].max() + 1):
                     artist = file['Artist'].values[i]
-                    #REG_EX = r'([a-zA-Z0-9]| )+'
                     REG_EX = r'(.)+'
                     try:
                         re.fullmatch(REG_EX, artist)
@@ -309,7 +304,6 @@ def incorrect_file(file):
                             continue        
                     
                     track = file['Track'].values[i]
-                    #REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\')+'
                     REG_EX = r'(.)+'
                     try:
                         re.fullmatch(REG_EX, track)
@@ -326,7 +320,7 @@ def incorrect_file(file):
                             continue
 
                     album = file['Album'].values[i]
-                    #REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\')+'          
+                    REG_EX = r'(.)+'         
                     try:
                         re.fullmatch(REG_EX, album)
                     except TypeError:
@@ -342,8 +336,7 @@ def incorrect_file(file):
                             continue 
 
                     album_type = file['Album_type'].values[i]
-                    #REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\')+'
-                    REG_EX = r'album|single|compilation' # Solo pueden ser album, single o compilation
+                    REG_EX = r'album|single|compilation'
                     try:
                         re.fullmatch(REG_EX, album_type)
                     except TypeError:
@@ -380,7 +373,7 @@ def incorrect_file(file):
                         index_to_drop.append(i)
                         continue
                     
-                    REG_EX = r'([0-9]+)'  #CHEQUEAR QUE ONDA CON LO DE MS
+                    REG_EX = r'([0-9]+)'
                     try:
                         re.fullmatch(REG_EX, duration)
                     except TypeError:
@@ -404,7 +397,7 @@ def incorrect_file(file):
                         index_to_drop.append(i)
                         continue
                     else:
-                        if re.fullmatch(REG_EX, url_youtube):                                           #El error que tira esta bien, between de bars no tiene streams por ejemplo
+                        if re.fullmatch(REG_EX, url_youtube):
                             pass
                         else:
                             print(f'La fila {i} no es válida, debido al que el url de youtube {url_youtube} no es aceptado por la expresión regular')
@@ -412,8 +405,7 @@ def incorrect_file(file):
                             continue
 
                     title = file['Title'].values[i]
-                    #REG_EX = r'([a-zA-Z0-9]| |#|\.|\?|\-|_|\(|\)|\,|\/|\;|"|\'|\[|\])+'
-                    REG_EX = r'(.)+'          #Le puse un punto porque hay muchos simbolos 
+                    REG_EX = r'(.)+'
                     if re.fullmatch(REG_EX, title):
                         pass
                     else:
@@ -471,7 +463,7 @@ def add_track():
                 final_data.reset_index(inplace=True , drop=False)
                 final_data.drop('Index', inplace=True, axis=1)
                 final_data.rename(columns={'index':'Index'}, inplace=True)
-                final_data.to_csv('./Listado temas 2023.csv', index=False) # Con index=False no agrega la columna Unnamed y se pueden agregar muchos nuevos registros sin error, lo que no puedo agregar es que el index se autoincremente dependiendo del index del archivo principal
+                final_data.to_csv('./Listado temas 2023.csv', index=False) # Con index=False no agrega la columna Unnamed y se pueden agregar muchos nuevos registros sin error.
                 return final_data
             elif file_validation is False:
                 processed_data = incorrect_file(new_file)
@@ -499,11 +491,9 @@ def add_track():
 def list_by_duration():
     data = csv_read()
     grouped_data = data.groupby('Track')
-#   data['duration'] = datetime.timedelta(milliseconds = data['Duration_ms'])  da error porque no toma bien el valor, no lo toma porque no un valor float y cuando lo intento forzar da otro error.
     data['Duration'] = data['Duration_ms'] / 1000
     sorted_data = grouped_data['Duration'].max().sort_values(ascending=False)
     final_data = sorted_data.head(10)
-#   final_data['duration'] = final_data['duration'].apply(lambda x: '{:02d}:{:02d}'.format(*divmod(int(x), 60)))  si lo dejaba sin el .loc daba una advertencia...
     final_data = final_data.reset_index()  # Reinicia el índice porque sinó daba problemas
     final_data.loc[:, 'Duration'] = final_data['Duration'].apply(lambda x: '{:02d}:{:02d}'.format(*divmod(int(x), 60)))
     return final_data.loc[:,['Track','Duration']]
